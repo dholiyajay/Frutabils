@@ -74,8 +74,7 @@ function Header(props) {
                 </div>
             </div>
             {/* Modal Search End */}
-            );
-
+    
         </div>
     );
 }

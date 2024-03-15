@@ -1,7 +1,19 @@
-import React from 'react';
-import { NavLink, Outlet } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, NavLink, Outlet } from 'react-router-dom';
 
 function Shop(props) {
+    const [Fruite, setFruitesdata] = useState([]);
+
+    useEffect(() => {
+        fruitdata()
+    }, []);
+
+    const fruitdata = async () => {
+        const response = await fetch('http://localhost:8000/Fruits')
+        const data = await response.json()
+        // console.log(data);
+        setFruitesdata(data);
+    }
     return (
         <div>
             {/* Single Page Header start */}
@@ -189,21 +201,46 @@ function Shop(props) {
                                 </div>
                                 <div className="col-lg-9">
                                     <div className="row g-4 justify-content-center">
-                                        <div className="col-md-6 col-lg-6 col-xl-4">
-                                            <div className="rounded position-relative fruite-item">
-                                                <div className="fruite-img">
-                                                    <img src="img/fruite-item-5.jpg" className="img-fluid w-100 rounded-top" alt />
+                                        {
+                                            Fruite.map((v) => (
+                                                <div className="col-md-6 col-lg-6 col-xl-4">
+                                                    <Link to={`/shop/${v.id}`}>
+                                                        <div className="rounded position-relative fruite-item">
+                                                            <div className="fruite-img">
+                                                                <img src={v.image} className="img-fluid w-100 rounded-top" alt />
+                                                            </div>
+                                                            <div className="text-white bg-secondary px-3 py-1 rounded position-absolute" style={{ top: 10, left: 10 }}>{v.category}</div>
+                                                            <div className="p-4 border border-secondary border-top-0 rounded-bottom">
+                                                                <h4>{v.name}</h4>
+                                                                <p>{v.discription}</p>
+                                                                <div className="d-flex justify-content-between flex-lg-wrap">
+                                                                    <p className="text-dark fs-5 fw-bold mb-0">${v.price} / kg</p>
+                                                                    <a href="#" className="btn border border-secondary rounded-pill px-3 text-primary"><i className="fa fa-shopping-bag me-2 text-primary" /> Add to cart</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </Link>
                                                 </div>
-                                                <div className="text-white bg-secondary px-3 py-1 rounded position-absolute" style={{ top: 10, left: 10 }}>Fruits</div>
-                                                <div className="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                    <h4>Grapes</h4>
-                                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                                                    <div className="d-flex justify-content-between flex-lg-wrap">
-                                                        <p className="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                        <a href="#" className="btn border border-secondary rounded-pill px-3 text-primary"><i className="fa fa-shopping-bag me-2 text-primary" /> Add to cart</a>
+                                            ))
+                                        }
+                                        {/* <div className="col-md-6 col-lg-6 col-xl-4">
+                                            <Link to="/shop/1">
+                                                <div className="rounded position-relative fruite-item">
+                                                    <div className="fruite-img">
+                                                        <img src="img/fruite-item-5.jpg" className="img-fluid w-100 rounded-top" alt />
+                                                    </div>
+                                                    <div className="text-white bg-secondary px-3 py-1 rounded position-absolute" style={{ top: 10, left: 10 }}>Fruits</div>
+                                                    <div className="p-4 border border-secondary border-top-0 rounded-bottom">
+                                                        <h4>Grapes</h4>
+                                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
+                                                        <div className="d-flex justify-content-between flex-lg-wrap">
+                                                            <p className="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
+                                                            <a href="#" className="btn border border-secondary rounded-pill px-3 text-primary"><i className="fa fa-shopping-bag me-2 text-primary" /> Add to cart</a>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </Link>
+
                                         </div>
                                         <div className="col-md-6 col-lg-6 col-xl-4">
                                             <div className="rounded position-relative fruite-item">
@@ -344,7 +381,7 @@ function Shop(props) {
                                                 <a href="#" className="rounded">6</a>
                                                 <a href="#" className="rounded">»</a>
                                             </div>
-                                        </div>
+                                        </div> */}
                                     </div>
                                 </div>
                             </div>
