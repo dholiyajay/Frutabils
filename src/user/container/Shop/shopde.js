@@ -2,15 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
 function Shop(props) {
-    const [prodata, setprodata] = useState([]);
+    const [productData, setProductData] = useState([]);
     const [catagory, setCatagory] = useState([]);
     const [type, setType] = useState([]);
     const [search, setSearchData] = useState("");
-    const [sortdata, setsortdata] = useState('');
-    const [typedata, settypedata] = useState('')
-    const [priceRange, setPriceRange] = useState("");
-
-    let { id } = useParams();
+    const [sortBy, setSortBy] = useState('');
+    const [protype, setProType] = useState('')
 
     useEffect(() => {
         getData();
@@ -28,30 +25,32 @@ function Shop(props) {
 
         setType(uniqtype)
         setCatagory(uniqueCategories)
-        setprodata(data);
+        setProductData(data);
     };
 
     const Filterdata = () => {
-        let fineldata = prodata.filter(item => item.name.toLowerCase().includes(search));
 
-        if (sortdata) {
-            fineldata = fineldata.filter(val => val.name === sortdata)
+        let fineldata = productData.filter(item => item.name.toLowerCase().includes(search));
+
+        if (sortBy) {
+            return fineldata.filter(val => val.name === sortBy)
         }
 
-        if (typedata) {
-            fineldata = fineldata.filter(val => val.type === typedata)
+        if (protype) {
+            return fineldata.filter(val => val.type === protype)
+        } else {
+            return fineldata;
         }
 
-        // Filter by price range
-        if (priceRange) {
-            fineldata = fineldata.filter(val => val.price <= priceRange);
-        }
-        
+        fineldata = productData
 
         return fineldata;
     }
 
     const enddata = Filterdata()
+
+    let { id } = useParams();
+
 
 
 
@@ -104,8 +103,8 @@ function Shop(props) {
                                                 <ul className="list-unstyled fruite-categorie">
                                                     <li>
                                                         <div className="d-flex justify-content-between fruite-name" >
-                                                            <a href="#" onClick={() => setsortdata('')} ><i className="fas fa-apple-alt me-2" />ALL</a>
-                                                            <span>({prodata.length})</span>
+                                                            <a href="#" onClick={() => setSortBy('')} ><i className="fas fa-apple-alt me-2" />ALL</a>
+                                                            <span>({productData.length})</span>
                                                         </div>
                                                     </li>
                                                 </ul>
@@ -114,10 +113,10 @@ function Shop(props) {
                                                     catagory.map((n) => (
                                                         <ul className="list-unstyled fruite-categorie">
                                                             <li>
-                                                                {/* {console.log(n)} */}
+                                                                {console.log(n)}
                                                                 <div className="d-flex justify-content-between fruite-name" >
-                                                                    <a href="#" onClick={() => setsortdata(n)} ><i className="fas fa-apple-alt me-2" />{n}</a>
-                                                                    <span>({prodata.filter(v => v.name === n).length})</span>
+                                                                    <a href="#" onClick={() => setSortBy(n)} ><i className="fas fa-apple-alt me-2" />{n}</a>
+                                                                    <span>({productData.filter(v => v.name === n).length})</span>
                                                                 </div>
                                                             </li>
                                                         </ul>
@@ -130,10 +129,8 @@ function Shop(props) {
                                         <div className="col-lg-12">
                                             <div className="mb-3">
                                                 <h4 className="mb-2">Price</h4>
-                                                <input type="range" className="form-range w-100" id="rangeInput" name="rangeInput" min={0} max={10} defaultValue={0} onChange={(event) => setPriceRange(event.target.value)} />
-                                                <output id="amount" name="amount" min-velue={0} max-value={10} htmlFor="rangeInput">
-                                                    {priceRange}
-                                                </output>
+                                                <input type="range" className="form-range w-100" id="rangeInput" name="rangeInput" min={0} max={500} defaultValue={0} oninput="amount.value=rangeInput.value" />
+                                                <output id="amount" name="amount" min-velue={0} max-value={500} htmlFor="rangeInput">0</output>
                                             </div>
                                         </div>
                                         <div className="col-lg-12">
@@ -142,12 +139,12 @@ function Shop(props) {
                                                 {
                                                     type.map((n, i) => (
                                                         <div className="mb-2">
-                                                            <input onChange={() => settypedata(n)} type="radio" className="me-2" id="Categories-1" name="Categories-1" defaultValue="Beverages" />
+                                                            <input onChange={() => setProType(n)} type="radio" className="me-2" id="Categories-1" name="Categories-1" defaultValue="Beverages" />
                                                             <label htmlFor="Categories-1">{n}</label>
                                                         </div>
                                                     ))
                                                 }
-
+                                
                                             </div>
                                         </div>
                                         <div className="col-lg-12">
@@ -266,8 +263,7 @@ function Shop(props) {
                     </div>
                 </div>
             </div>
-            {/* Fruits Shop End*/}
-        </div >
+            {/* Fruits Shop End*/}</div >
 
     );
 }

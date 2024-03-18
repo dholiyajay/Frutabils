@@ -10,16 +10,19 @@ import Page from '../user/container/404page/404page';
 import Contact from '../user/container/contact/Contact';
 import Footer from '../user/component/Footer/Footer';
 import { Route, Routes } from 'react-router-dom';
+import PrivateRoutes from './PrivateRoutes';
 
 function UserRoutes(props) {
     return (
         <div>
             <Header />
             <Routes>
-                <Route exact path="/" element={<Home />} />
+                <Route exact path="/" element={<Home />} />     
+                <Route element={<PrivateRoutes />}>
                 <Route exact path='/Shop' element={<Shop />} />
-                <Route exact path="/Shop/:id" element={<Shop_detail />} />
-                <Route exact path='/Shop_detail' element={<Shop_detail />} />
+                    <Route exact path="/Shop/:id" element={<Shop_detail />} />
+                    <Route exact path='/Shop_detail' element={<Shop_detail />} />
+                </Route>
                 <Route exact path='/Crat' element={<Crat />} />
                 <Route exact path='/Chackout' element={<Chackout />} />
                 <Route exact path='/Testimonial' element={<Testimonial />} />
